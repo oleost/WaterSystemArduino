@@ -7,3 +7,4 @@ http://www.ebay.com/itm/282014326455?_trksid=p2057872.m2749.l2648&ssPageName=STR
 http://www.instructables.com/id/Controling-a-solenoid-valve-with-an-Arduino/
 http://www.ebay.com/itm/322183448637?_trksid=p2057872.m2749.l2649&ssPageName=STRK%3AMEBIDX%3AIT
 http://www.ebay.com/itm/271700215191?_trksid=p2057872.m2749.l2649&ssPageName=STRK%3AMEBIDX%3AIT
+http://www.banggood.com/Moisture-Sensor-For-Arduino-Automatic-Watering-System-p-995384.html?currency=AUD&createTmp=1&utm_source=google&utm_medium=cpc&utm_content=jason&utm_campaign=cmac-dm-eur&gclid=CO6pj5Ghvs4CFQqQcgodxywK9Q
