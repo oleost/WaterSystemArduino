@@ -12,9 +12,9 @@ plant2 is an Sukkerert
 #define led 13
  
 //Define how many measurement one takes average of, and wait time between each sample
-#define averageMeasuringsensor 30 // How many samples
+#define averageMeasuringsensor 5 // How many samples
 #define averageWaittimesensor 100 // Wait time between each sample
-
+#define globalWaittime 10000 // Wait time after checked all plants and watered every plant.
 
 //Plants setup
 #define numberOfPlants 3 // Enter how many plants you have
@@ -24,7 +24,6 @@ int StopwateringPlant[numberOfPlants] = {450, 450, 450}; // Add a new value for 
 int SensorpinPlant[numberOfPlants] = {A0, A1, A2}; // Analoge pin, Add a new value for each plant
 int SolenoidoutputPlant[numberOfPlants] = {2, 3, 4}; // Digital pin, Add a new value for each plant.
 int WateringtimePlant[numberOfPlants] = {2000, 2000, 2000}; // Divide by 1000 and get seconds. Add a new value for each plant.
-int WateringpausetimePlant[numberOfPlants] = {5000, 5000, 5000}; // Divide by 1000 and get seconds. Add a new value for each plant.
 
 //Setup ends here
  
@@ -64,9 +63,9 @@ void loop() {
       delay(WateringtimePlant[PlanteLoop]); // How long it will water
       digitalWrite(SolenoidoutputPlant[PlanteLoop], LOW);
       if (PlanteLoop == 0) digitalWrite(led, LOW); //bare endre LEDen for plante 0
-      delay(WateringpausetimePlant[PlanteLoop]); // 5 second wait time
     }
   }
+  delay(globalWaittime);
 }
  
 void moistureSamplingPlant(int PlantNr) //Read value of plant moisture
