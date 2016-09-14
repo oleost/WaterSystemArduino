@@ -1,11 +1,19 @@
 /*
- Automatic water with solenoid valves
+ Automatic water with solenoid valves.
+ This goes to one plant at the time.
+ So it works like this: Reads a plant moisture, if its below StartwateringPlant moisture it will set a flag that this plant is dry, and then it will water for the WateringtimePlant period.
+ Then it stops watering and goes on to the next plant i line an does the same, when its finished with the last plant the program waits globalWaittime before going further.
+ This time as long as one plant has started watering, it will keep watering untill StopwateringPlant is reached.
+
+ When adding and removing plants one need to edit: numberOfPlants, StopwateringPlant, StopwateringPlant, SensorpinPlant, SolenoidoutputPlant and WateringtimePlant
 */
  
-/*Define Plants
+/* Define Plants, this list is just to remember yourself what is what.
 plant0 is an Oregano
 plant1 is an Basilikum
 plant2 is an Sukkerert
+plant3 is an Gressløk
+plant4 is an Uteblomst
 */
  
 //Define warning LED
@@ -17,21 +25,21 @@ plant2 is an Sukkerert
 #define globalWaittime 10000 // Wait time after checked all plants and watered every plant.
 
 //Plants setup
-#define numberOfPlants 3 // Enter how many plants you have
+#define numberOfPlants 5 // Enter how many plants you have
 
-int StartwateringPlant[numberOfPlants] = {100, 400, 400}; // Add a new value for each plant, this is when it starts watering
-int StopwateringPlant[numberOfPlants] = {450, 450, 450}; // Add a new value for each plant, this is when it stop watering.
-int SensorpinPlant[numberOfPlants] = {A0, A1, A2}; // Analoge pin, Add a new value for each plant
-int SolenoidoutputPlant[numberOfPlants] = {2, 3, 4}; // Digital pin, Add a new value for each plant.
-int WateringtimePlant[numberOfPlants] = {2000, 2000, 2000}; // Divide by 1000 and get seconds. Add a new value for each plant.
+int StartwateringPlant[numberOfPlants] = {400, 400, 400, 400, 400}; // Add a new value for each plant, this is when it starts watering
+int StopwateringPlant[numberOfPlants] = {450, 450, 450, 450, 450}; // Add a new value for each plant, this is when it stop watering.
+int SensorpinPlant[numberOfPlants] = {A0, A1, A2, A3, A4}; // Analoge pin, Add a new value for each plant
+int SolenoidoutputPlant[numberOfPlants] = {2, 3, 4, 5, 6}; // Digital pin, Add a new value for each plant.
+int WateringtimePlant[numberOfPlants] = {2000, 2000, 2000, 2000, 2000}; // Divide by 1000 and get seconds. Add a new value for each plant.
 
 //Setup ends here
  
 //the value readed from each moisture sensor
-int moisturePlant[numberOfPlants] = {0}; //plante 0 til 2
+int moisturePlant[numberOfPlants] = {0}; // Value to store average reading in
  
 //the sum of the 30 times sampling
-long int moistureSumPlant[numberOfPlants] = {0}; // We need to sampling the moisture 30 times and get its average value, this variable is used to store the sum of the 30 times sampled value
+long int moistureSumPlant[numberOfPlants] = {0}; // This variable is used to store the sum of all sampled value
  
 boolean keepWateringPlant[numberOfPlants] = {false};
 
@@ -41,7 +49,7 @@ void setup() {
   Serial.begin(9600);
   for(int x = 0; x <= howmanyPlants; x++)
     {
-      pinMode(SolenoidoutputPlant[x], OUTPUT);  //setter solenoidportene til utganger
+      pinMode(SolenoidoutputPlant[x], OUTPUT);  // Makes the outputs to the solenoids
     }
  
   pinMode(led, OUTPUT);
@@ -52,17 +60,15 @@ void loop() {
   {
     moistureSamplingPlant(PlanteLoop);
     if (moisturePlant[PlanteLoop] < StartwateringPlant[PlanteLoop]){
-      keepWateringPlant[PlanteLoop] = true; // Turn on watering on plan1
+      keepWateringPlant[PlanteLoop] = true; // Turn on watering plant
     }
     if (moisturePlant[PlanteLoop] > StopwateringPlant[PlanteLoop]) {
-      keepWateringPlant[PlanteLoop] = false; // Turn off watering on plan1
+      keepWateringPlant[PlanteLoop] = false; // Turn off watering on plant
     }
     if (keepWateringPlant[PlanteLoop] == true) {
-      if (PlanteLoop == 0) digitalWrite(led, HIGH);  //bare endre LEDen for plante 0
       digitalWrite(SolenoidoutputPlant[PlanteLoop], HIGH); // Open valve
       delay(WateringtimePlant[PlanteLoop]); // How long it will water
       digitalWrite(SolenoidoutputPlant[PlanteLoop], LOW);
-      if (PlanteLoop == 0) digitalWrite(led, LOW); //bare endre LEDen for plante 0
     }
   }
   delay(globalWaittime);
