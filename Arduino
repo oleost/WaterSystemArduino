@@ -6,6 +6,8 @@
  This time as long as one plant has started watering, it will keep watering untill StopwateringPlant is reached.
 
  When adding and removing plants one need to edit: numberOfPlants, StopwateringPlant, StopwateringPlant, SensorpinPlant, SolenoidoutputPlant and WateringtimePlant
+ 
+ Also it will print the value of the soil moisture, and if its watering is turned on on serial 9600 baud. 0 means its not watering and 1 is that is watering.
 */
  
 /* Define Plants, this list is just to remember yourself what is what.
