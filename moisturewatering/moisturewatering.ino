@@ -84,13 +84,13 @@ void loop() {
  
 void moistureSamplingPlant(int PlantNr) //Read value of plant moisture
 {
- digitalWrite(sensorMeasurementpoweron, HIGH);
+ digitalWrite(sensorMeasurementpoweron, LOW);
   for(int i = 0; i < averageMeasuringsensor; i++)// sampling predefined.
   {
     delay(averageWaittimesensor);
     moistureSumPlant[PlantNr] = moistureSumPlant[PlantNr] + analogRead(SensorpinPlant[PlantNr]);
   }
-  digitalWrite(sensorMeasurementpoweron, LOW);
+  digitalWrite(sensorMeasurementpoweron, HIGH);
   moisturePlant[PlantNr] = moistureSumPlant[PlantNr] / averageMeasuringsensor; //Divide to get correct reading
   Serial.print("Plant ");
   Serial.print(PlantNr);
