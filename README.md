@@ -14,3 +14,12 @@ http://www.ebay.com/itm/271700215191?_trksid=p2057872.m2749.l2649&ssPageName=STR
 
 http://www.banggood.com/Moisture-Sensor-For-Arduino-Automatic-Watering-System-p-995384.html?currency=AUD&createTmp=1&utm_source=google&utm_medium=cpc&utm_content=jason&utm_campaign=cmac-dm-eur&gclid=CO6pj5Ghvs4CFQqQcgodxywK9Q
 
+http://www.ebay.com/itm/201537960316?_trksid=p2057872.m2749.l2649&ssPageName=STRK%3AMEBIDX%3AIT
+
+Setup:
+
+Arduino, analog inputs A0 and up for sensors measuring moisture.
+
+Digital output D2 and up is used to control solenoid valves with the help of the N-channel mosfets.
+
+Digital output D12 is used to power up every moisture sensor before reading.
