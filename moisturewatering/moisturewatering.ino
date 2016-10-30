@@ -29,7 +29,7 @@ plant4 is an Uteblomst
 //Define how many measurement one takes average of, and wait time between each sample
 #define averageMeasuringsensor 5 // How many samples
 #define averageWaittimesensor 100 // Wait time between each sample
-#define globalWaittime 10000 // Wait time after checked all plants and watered every plant.
+#define globalWaittime 1000000 // Wait time after checked all plants and watered every plant.
 
 //Plants setup
 #define numberOfPlants 5 // Enter how many plants you have
