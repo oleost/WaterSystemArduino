@@ -23,7 +23,7 @@ plant4 is an Uteblomst
 //Define warning LED
 #define led 13
 
-//Define power pin for all powering all measurement devices
+//Define power pin for all powering all measurement devices. This is used with an P-channel mosfet so it turns output LOW when measuring.
 #define sensorMeasurementpoweron 12
 
 //Define how many measurement one takes average of, and wait time between each sample
@@ -84,13 +84,14 @@ void loop() {
  
 void moistureSamplingPlant(int PlantNr) //Read value of plant moisture
 {
- digitalWrite(sensorMeasurementpoweron, LOW);
+ digitalWrite(sensorMeasurementpoweron, LOW); // Turns output low when measuring
+ delay(3000); // Gives the sensor an chance to power up and get stable before starting measuring
   for(int i = 0; i < averageMeasuringsensor; i++)// sampling predefined.
   {
     delay(averageWaittimesensor);
     moistureSumPlant[PlantNr] = moistureSumPlant[PlantNr] + analogRead(SensorpinPlant[PlantNr]);
   }
-  digitalWrite(sensorMeasurementpoweron, HIGH);
+  digitalWrite(sensorMeasurementpoweron, HIGH); // Turn of power to measurement probes
   moisturePlant[PlantNr] = moistureSumPlant[PlantNr] / averageMeasuringsensor; //Divide to get correct reading
   Serial.print("Plant ");
   Serial.print(PlantNr);
