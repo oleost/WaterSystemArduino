@@ -8,6 +8,8 @@
  When adding and removing plants one need to edit: numberOfPlants, StopwateringPlant, StopwateringPlant, SensorpinPlant, SolenoidoutputPlant and WateringtimePlant
  
  Also it will print the value of the soil moisture, and if its watering is turned on on serial 9600 baud. 0 means its not watering and 1 is that is watering.
+
+ Use defined output pin to power measurement sensor to maximize moisture measuement sensor life so its turned off when not in use.
 */
  
 /* Define Plants, this list is just to remember yourself what is what.
@@ -20,7 +22,10 @@ plant4 is an Uteblomst
  
 //Define warning LED
 #define led 13
- 
+
+//Define power pin for all powering all measurement devices. This is used with an P-channel mosfet so it turns output LOW when measuring.
+#define sensorMeasurementpoweron 12
+
 //Define how many measurement one takes average of, and wait time between each sample
 #define averageMeasuringsensor 5 // How many samples
 #define averageWaittimesensor 100 // Wait time between each sample
@@ -55,6 +60,7 @@ void setup() {
     }
  
   pinMode(led, OUTPUT);
+  pinMode(sensorMeasurementpoweron, OUTPUT);
 }
  
 void loop() {
@@ -78,11 +84,14 @@ void loop() {
  
 void moistureSamplingPlant(int PlantNr) //Read value of plant moisture
 {
+ digitalWrite(sensorMeasurementpoweron, LOW); // Turns output low when measuring
+ delay(3000); // Gives the sensor an chance to power up and get stable before starting measuring
   for(int i = 0; i < averageMeasuringsensor; i++)// sampling predefined.
   {
-    moistureSumPlant[PlantNr] = moistureSumPlant[PlantNr] + analogRead(SensorpinPlant[PlantNr]);
     delay(averageWaittimesensor);
+    moistureSumPlant[PlantNr] = moistureSumPlant[PlantNr] + analogRead(SensorpinPlant[PlantNr]);
   }
+  digitalWrite(sensorMeasurementpoweron, HIGH); // Turn of power to measurement probes
   moisturePlant[PlantNr] = moistureSumPlant[PlantNr] / averageMeasuringsensor; //Divide to get correct reading
   Serial.print("Plant ");
   Serial.print(PlantNr);
