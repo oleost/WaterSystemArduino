@@ -21,7 +21,7 @@ plant4 is an Uteblomst
 */
  
 //Define warning LED
-#define led 13
+#define led 13 // Not currently in use.
 
 //Define power pin for all powering all measurement devices. This is used with an P-channel mosfet so it turns output LOW when measuring.
 #define sensorMeasurementpoweron 12
