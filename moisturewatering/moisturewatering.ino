@@ -19,7 +19,14 @@ plant2 is an Sukkerert
 plant3 is an Gressløk
 plant4 is an Uteblomst
 */
- 
+
+#include <ESP8266WiFi.h>
+#include <BlynkSimpleEsp8266.h>
+#include <TimeLib.h>
+#include <WidgetRTC.h>
+#include <WiFiUdp.h>
+#include <ArduinoOTA.h>
+
 //Define warning LED
 #define led 13 // Not currently in use.
 
@@ -27,15 +34,18 @@ plant4 is an Uteblomst
 #define sensorMeasurementpoweron 12
 
 //Define how many measurement one takes average of, and wait time between each sample
-#define averageMeasuringsensor 5 // How many samples
-#define averageWaittimesensor 100 // Wait time between each sample
-#define globalWaittime 1000000 // Wait time after checked all plants and watered every plant.
+int averageMeasuringsensor = 5; // How many samples
+int averageWaittimesensor = 100; // Wait time between each sample
+long globalWaittime = 1000000; // Wait time after checked all plants and watered every plant.
 
 //Plants setup
-#define numberOfPlants 5 // Enter how many plants you have
+int numberOfPlants = 5; // Enter how many plants you have
 
-int StartwateringPlant[numberOfPlants] = {400, 400, 400, 400, 400}; // Add a new value for each plant, this is when it starts watering
-int StopwateringPlant[numberOfPlants] = {450, 450, 450, 450, 450}; // Add a new value for each plant, this is when it stop watering.
+int moistureStartwatering = 400;
+int moistureStopwatering = 450;
+
+int StartwateringPlant[numberOfPlants] = {moistureStartwatering, moistureStartwatering, moistureStartwatering, moistureStartwatering, moistureStartwatering}; // Add a new value for each plant, this is when it starts watering
+int StopwateringPlant[numberOfPlants] = {moistureStopwatering, moistureStopwatering, moistureStopwatering, moistureStopwatering, moistureStopwatering}; // Add a new value for each plant, this is when it stop watering.
 int SensorpinPlant[numberOfPlants] = {A0, A1, A2, A3, A4}; // Analoge pin, Add a new value for each plant
 int SolenoidoutputPlant[numberOfPlants] = {2, 3, 4, 5, 6}; // Digital pin, Add a new value for each plant.
 int WateringtimePlant[numberOfPlants] = {2000, 2000, 2000, 2000, 2000}; // Divide by 1000 and get seconds. Add a new value for each plant.
